@@ -35,15 +35,5 @@ namespace Test
         {
             Settings.Fsm.Update(Time.deltaTime);
         }
-
-        [Bind]
-        private void OnButtonClick(string buttonName)
-        {
-            string currentLocation = Settings.Model.GetString("State");
-            Settings.Model.Set($"Btn{currentLocation}Enable", true);
-            Settings.Model.Set($"Btn{buttonName}Enable", false);
-            Settings.Model.Set("State", buttonName);
-            Settings.Fsm.Invoke("OnMovement", buttonName);
-        }
     }
 }

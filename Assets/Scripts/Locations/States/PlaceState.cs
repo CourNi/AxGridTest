@@ -21,8 +21,12 @@ namespace Test
             Debug.Log("Idle");
         }
 
-        public virtual void OnMovement(string location)
+        public virtual void OnBtn(string location)
         {
+            string currentLocation = Settings.Model.GetString("State");
+            Settings.Model.Set($"Btn{currentLocation}Enable", true);
+            Settings.Model.Set($"Btn{location}Enable", false);
+            Settings.Model.Set("State", location);
             Settings.Model.EventManager.Invoke("Move", location);
             Parent.Change("WalkState");
         }

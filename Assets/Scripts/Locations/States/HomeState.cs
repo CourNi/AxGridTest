@@ -15,7 +15,7 @@ namespace Test
         public override void OnLoop() => base.OnLoop();
 
         [Bind]
-        public override void OnMovement(string location) => base.OnMovement(location);
+        public override void OnBtn(string location) => base.OnBtn(location);
 
         [Exit]
         public void OnExit() => base.OnExit("Home");
