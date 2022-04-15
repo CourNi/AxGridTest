@@ -25,6 +25,7 @@ namespace Test
             Settings.Fsm.Add(new HomeState());
             Settings.Fsm.Add(new WorkState());
             Settings.Fsm.Add(new ShopState());
+            Settings.Fsm.Add(new WalkState());
 
             Settings.Fsm.Start("HomeState");
         }
@@ -38,14 +39,11 @@ namespace Test
         [Bind]
         private void OnButtonClick(string buttonName)
         {
-            Settings.Model.Set("Moving", true);
-            Settings.Fsm.Change($"{buttonName}State");
-        }
-
-        [Bind]
-        private void OnMovementEnd()
-        {
-            Settings.Model.Set("Moving", false);
+            string currentLocation = Settings.Model.GetString("State");
+            Settings.Model.Set($"Btn{currentLocation}Enable", true);
+            Settings.Model.Set($"Btn{buttonName}Enable", false);
+            Settings.Model.Set("State", buttonName);
+            Settings.Fsm.Invoke("OnMovement", buttonName);
         }
     }
 }

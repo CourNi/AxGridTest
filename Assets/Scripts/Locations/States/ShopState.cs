@@ -1,30 +1,26 @@
 ﻿using UnityEngine;
 using AxGrid.FSM;
+using AxGrid.Model;
 using AxGrid;
 
 namespace Test
 {
     [State("ShopState")]
-    public class ShopState : FSMState
+    public class ShopState : PlaceState
     {
         [Enter]
-        private void OnEnter()
-        {
-            Settings.Model.ToggleBool("BtnShopEnable", true);
-            Settings.Model.EventManager.Invoke("Move", "Shop");
-            Settings.Model.EventManager.Invoke("BackgroundChange", Color.blue);
-        }
+        public void OnEnter() => base.OnEnter("Shop", Color.blue);
 
         [Loop(0.25f)]
-        private void OnLoop()
+        public override void OnLoop()
         {
-            if (!Settings.Model.GetBool("Moving") && Settings.Model.GetInt("Balance") > 0) Settings.Model.Dec("Balance");
+            if (Settings.Model.GetInt("Balance") > 0) Settings.Model.Dec("Balance");
         }
 
+        [Bind]
+        public override void OnMovement(string location) => base.OnMovement(location);
+
         [Exit]
-        private void OnExit()
-        {
-            Settings.Model.ToggleBool("BtnShopEnable", false);
-        }
+        public void OnExit() => base.OnExit("Shop");
     }
 }

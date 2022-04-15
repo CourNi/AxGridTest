@@ -6,10 +6,11 @@ public class Background : MonoBehaviourExtBind
 {
     private Camera _gameCamera;
     
-    [OnStart]
+    [OnAwake]
     private void Initialize()
     {
         _gameCamera = Camera.main;
+        _gameCamera.backgroundColor = Color.grey;
     }
 
     [Bind]

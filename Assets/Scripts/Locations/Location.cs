@@ -8,7 +8,7 @@ namespace Test {
         private string _locationName;
         private Vector2 _position;
 
-        [OnAwake]
+        [OnStart]
         private void Initialize()
         {
             _position = transform.localPosition;

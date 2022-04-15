@@ -1,30 +1,26 @@
 ﻿using UnityEngine;
 using AxGrid.FSM;
+using AxGrid.Model;
 using AxGrid;
 
 namespace Test
 {
     [State("WorkState")]
-    public class WorkState : FSMState
+    public class WorkState : PlaceState
     {
         [Enter]
-        private void OnEnter()
-        {
-            Settings.Model.ToggleBool("BtnWorkEnable", true);
-            Settings.Model.EventManager.Invoke("Move", "Work");
-            Settings.Model.EventManager.Invoke("BackgroundChange", Color.red);
-        }
+        public void OnEnter() => base.OnEnter("Work", Color.red);
 
         [Loop(0.25f)]
-        private void OnLoop()
+        public override void OnLoop()
         {
-            if (!Settings.Model.GetBool("Moving")) Settings.Model.Inc("Balance");
+            Settings.Model.Inc("Balance");
         }
 
+        [Bind]
+        public override void OnMovement(string location) => base.OnMovement(location);
+
         [Exit]
-        private void OnExit()
-        {
-            Settings.Model.ToggleBool("BtnWorkEnable", false);
-        }
+        public void OnExit() => base.OnExit("Work");
     }
 }

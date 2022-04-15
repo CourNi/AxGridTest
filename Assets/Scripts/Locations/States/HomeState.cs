@@ -1,24 +1,23 @@
 ﻿using UnityEngine;
 using AxGrid.FSM;
 using AxGrid;
+using AxGrid.Model;
 
 namespace Test
 {
     [State("HomeState")]
-    public class HomeState : FSMState
+    public class HomeState : PlaceState
     {
         [Enter]
-        private void OnEnter()
-        {
-            Settings.Model.Set("BtnHomeEnable", false);
-            Settings.Model.EventManager.Invoke("Move", "Home");
-            Settings.Model.EventManager.Invoke("BackgroundChange", Color.grey);
-        }
+        public void OnEnter() => base.OnEnter("Home", Color.grey);
+
+        [Loop(0.25f)]
+        public override void OnLoop() => base.OnLoop();
+
+        [Bind]
+        public override void OnMovement(string location) => base.OnMovement(location);
 
         [Exit]
-        private void OnExit()
-        {
-            Settings.Model.Set("BtnHomeEnable", true);
-        }
+        public void OnExit() => base.OnExit("Home");
     }
 }

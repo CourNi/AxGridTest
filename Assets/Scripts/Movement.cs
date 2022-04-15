@@ -16,7 +16,6 @@ namespace Test
         [OnStart]
         private void StartPosition()
         {
-            transform.localPosition = LocationManager.Current.GetLocationPosition("Home");
             _currentPosition = transform.localPosition;
         }
 
@@ -28,7 +27,7 @@ namespace Test
             _targetPosition = LocationManager.Current.GetLocationPosition(locationName);
 
             Path.EasingLinear(_animationTime, 0.0f, 1.0f, value => MoveToPosition(value))
-                .Action(() => Settings.Model.EventManager.Invoke("OnMovementEnd"));
+                .Action(() => Settings.Fsm.Invoke("OnMovementEnd"));
         }
 
         private void MoveToPosition(float time)
