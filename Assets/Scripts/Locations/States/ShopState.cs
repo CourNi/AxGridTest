@@ -9,18 +9,18 @@ namespace Test
     public class ShopState : PlaceState
     {
         [Enter]
-        public void OnEnter() => base.OnEnter("Shop", Color.blue);
+        private void OnEnter() => base.OnEnter("Shop", Color.blue);
 
         [Loop(0.25f)]
-        public override void OnLoop()
+        private protected override void OnLoop()
         {
             if (Settings.Model.GetInt("Balance") > 0) Settings.Model.Dec("Balance");
         }
 
         [Bind]
-        public override void OnBtn(string location) => base.OnBtn(location);
+        private protected override void OnBtn(string location) => base.OnBtn(location);
 
         [Exit]
-        public void OnExit() => base.OnExit("Shop");
+        private void OnExit() => base.OnExit("Shop");
     }
 }

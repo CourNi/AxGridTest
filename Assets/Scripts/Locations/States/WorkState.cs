@@ -9,18 +9,18 @@ namespace Test
     public class WorkState : PlaceState
     {
         [Enter]
-        public void OnEnter() => base.OnEnter("Work", Color.red);
+        private void OnEnter() => base.OnEnter("Work", Color.red);
 
         [Loop(0.25f)]
-        public override void OnLoop()
+        private protected override void OnLoop()
         {
             Settings.Model.Inc("Balance");
         }
 
         [Bind]
-        public override void OnBtn(string location) => base.OnBtn(location);
+        private protected override void OnBtn(string location) => base.OnBtn(location);
 
         [Exit]
-        public void OnExit() => base.OnExit("Work");
+        private void OnExit() => base.OnExit("Work");
     }
 }

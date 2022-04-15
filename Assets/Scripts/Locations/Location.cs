@@ -12,7 +12,7 @@ namespace Test {
         private void Initialize()
         {
             _position = transform.localPosition;
-            LocationManager.Current.Add(this);
+            LocationManager.Instance.Add(this);
         }
 
         public string Name { get => _locationName; }

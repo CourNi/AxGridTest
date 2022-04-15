@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using AxGrid.FSM;
-using AxGrid;
 using AxGrid.Model;
 
 namespace Test
@@ -9,15 +8,15 @@ namespace Test
     public class HomeState : PlaceState
     {
         [Enter]
-        public void OnEnter() => base.OnEnter("Home", Color.grey);
+        private void OnEnter() => base.OnEnter("Home", Color.grey);
 
         [Loop(0.25f)]
-        public override void OnLoop() => base.OnLoop();
+        private protected override void OnLoop() => base.OnLoop();
 
         [Bind]
-        public override void OnBtn(string location) => base.OnBtn(location);
+        private protected override void OnBtn(string location) => base.OnBtn(location);
 
         [Exit]
-        public void OnExit() => base.OnExit("Home");
+        private void OnExit() => base.OnExit("Home");
     }
 }

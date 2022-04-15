@@ -24,7 +24,7 @@ namespace Test
         {
             Path = new CPath();
             _currentPosition = transform.localPosition;
-            _targetPosition = LocationManager.Current.GetLocationPosition(locationName);
+            _targetPosition = LocationManager.Instance.GetLocationPosition(locationName);
 
             Path.EasingLinear(_animationTime, 0.0f, 1.0f, value => MoveToPosition(value))
                 .Action(() => Settings.Fsm.Invoke("OnMovementEnd"));

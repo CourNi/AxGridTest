@@ -10,19 +10,19 @@ namespace Test
 
         private readonly List<Location> _locations = new List<Location>();
 
-        public static LocationManager Current { get; private set; }
+        public static LocationManager Instance { get; private set; }
 
         public static void Initialize()
         {
-            Current = new LocationManager();
+            Instance = new LocationManager();
         }
 
-        public void Add<T>(T location) where T : Location
+        public void Add(Location location)
         {
             _locations.Add(location);
         }
 
-        public void Remove<T>(T location) where T : Location
+        public void Remove(Location location)
         {
             _locations.Remove(location);
         }

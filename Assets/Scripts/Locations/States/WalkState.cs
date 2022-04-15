@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using AxGrid;
 using AxGrid.FSM;
 using AxGrid.Model;
@@ -13,6 +11,8 @@ namespace Test
         [Enter]
         private void OnEnter()
         {
+            string targetLocation = Settings.Model.GetString("State");
+            Settings.Model.EventManager.Invoke("Move", targetLocation);
             Debug.Log("MovementEnter");
         }
 
@@ -26,10 +26,7 @@ namespace Test
         [Bind]
         public void OnBtn(string location)
         {
-            string currentLocation = Settings.Model.GetString("State");
-            Settings.Model.Set($"Btn{currentLocation}Enable", true);
-            Settings.Model.Set($"Btn{location}Enable", false);
-            Settings.Model.Set("State", location);
+            GeneralActions.ChangeLocationState(location);
             Settings.Model.EventManager.Invoke("Move", location);
         }
 
