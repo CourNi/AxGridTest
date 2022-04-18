@@ -1,0 +1,52 @@
+{
+    "name": "MainControl",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "d294159a-2041-402d-8936-c706d44a3e20",
+            "actions": [
+                {
+                    "name": "Console",
+                    "type": "Button",
+                    "id": "141fbe72-b4ef-4ef8-a7f9-305631405a30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "d9623575-8ebb-470b-be21-b08f02343245",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3dd4722d-c7d1-4b69-8d59-14acc57cc57c",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Console",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9cebbad6-c860-44e0-a2f5-8b40ad1ff517",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
