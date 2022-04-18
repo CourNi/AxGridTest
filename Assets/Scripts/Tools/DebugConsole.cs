@@ -5,15 +5,15 @@ using AxGrid.Base;
 
 public class DebugConsole : MonoBehaviourExt
 {
-    private bool showConsole;
-    private string input;
+    private MainControl _control;
+    private bool _showConsole;
+    private string _input;
 
     public static DebugEvent<string> CALL_EVENT_FSM;
     public static DebugEvent<string> CALL_EVENT_MODEL;
     public static DebugEvent<string, bool> SET_BOOL;
 
-    public List<object> eventList;
-    private MainControl control;
+    public List<object> EventList;
 
     [OnAwake]
     private void OnAwake()
@@ -33,66 +33,70 @@ public class DebugConsole : MonoBehaviourExt
             Model.Set(x, y);
         });
 
-        eventList = new List<object>
+        EventList = new List<object>
         {
             CALL_EVENT_FSM,
             CALL_EVENT_MODEL,
             SET_BOOL
         };
+    }
 
-        control = new MainControl();
-        control.Main.Console.performed += ctx => OnConsole();
-        control.Main.Return.performed += ctx => OnReturn();
-        control.Main.Enable();
+    [OnStart]
+    private void OnStart()
+    {
+        _control = ControlManager.Instance.Control;
+        _control.Main.Console.performed += ctx => OnConsole();
+        _control.Main.Return.performed += ctx => OnReturn();
+        _control.Main.Enable();
     }
 
     public void OnConsole()
     {
-        showConsole = !showConsole;
+        _showConsole = !_showConsole;
         Debug.Log("Console");
     }
 
     public void OnReturn()
     {
-        if (showConsole)
+        if (_showConsole)
         {
             HandleInput();
-            input = "";
+            _input = "";
         }
     }
 
     private void OnGUI()
     {
-        if (!showConsole) return;
+        if (!_showConsole) return;
 
         float y = 0f;
 
         GUI.Box(new Rect(0, y, Screen.width, 40f), "");
         GUI.backgroundColor = new Color(0, 0, 0, 0);
-        input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 35f), input);
+        _input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 35f), _input);
         GUI.skin.textField.fontSize = 20;
     }
 
     private void HandleInput()
     {
-        string[] properties = input.Split(' ');
+        string[] properties = _input.Split(' ');
 
-        for(int i=0; i<eventList.Count; i++)
+        for(int i=0; i<EventList.Count; i++)
         {
-            DebugEventBase eventBase = eventList[i] as DebugEventBase;
-            if (input.Contains(eventBase.eventId))
+            DebugEventBase eventBase = EventList[i] as DebugEventBase;
+            if (_input.Contains(eventBase.eventId))
             {
-                if (eventList[i] as DebugEvent != null)
+                if (EventList[i] as DebugEvent != null)
                 {
-                    (eventList[i] as DebugEvent).Invoke();
+                    (EventList[i] as DebugEvent).Invoke();
                 }
-                else if (eventList[i] as DebugEvent<string> != null)
+                else if (EventList[i] as DebugEvent<string> != null)
                 {
-                    (eventList[i] as DebugEvent<string>).Invoke(properties[1]);
+                    (EventList[i] as DebugEvent<string>).Invoke(properties[1]);
                 }
-                else if (eventList[i] as DebugEvent<string, bool> != null)
+                else if (EventList[i] as DebugEvent<string, bool> != null)
                 {
-                    (eventList[i] as DebugEvent<string, bool>).Invoke(properties[1], bool.Parse(properties[2]));
+                    (EventList[i] as DebugEvent<string, bool>).Invoke(properties[1], bool.Parse(properties[2]));
                 }
             }
         }
