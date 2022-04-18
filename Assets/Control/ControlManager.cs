@@ -9,19 +9,15 @@ public class ControlManager : MonoBehaviourExt
     #region Singleton
     public static ControlManager Instance;
 
-    void Awake()
+    [OnAwake]
+    private void OnAwake()
     {
         Instance = this;
+        _control = new MainControl();
     }
     #endregion
 
     private MainControl _control;
 
     public MainControl Control { get => _control; }
-
-    [OnAwake]
-    private void OnAwake()
-    {
-        _control = new MainControl();
-    }
 }
