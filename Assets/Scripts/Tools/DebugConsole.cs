@@ -53,7 +53,6 @@ public class DebugConsole : MonoBehaviourExt
     public void OnConsole()
     {
         _showConsole = !_showConsole;
-        Debug.Log("Console");
     }
 
     public void OnReturn()

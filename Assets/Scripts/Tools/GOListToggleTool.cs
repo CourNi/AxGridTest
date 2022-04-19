@@ -1,15 +1,22 @@
-﻿using AxGrid.Base;
+﻿using System.Collections;
+using System.Collections.Generic;
+using AxGrid.Base;
+using AxGrid.Model;
 using UnityEngine;
 
 namespace AxGrid.Tools.Binders
 {
-    public class GOToggleTool : Binder
+    public class GOListToggleTool : Binder
     {
         [SerializeField]
         private string objectName = "";
         private string objectStateName = "";
         [SerializeField]
         private bool defaultEnable = true;
+        [SerializeField]
+        private List<GameObject> _objectsList;
+        [SerializeField]
+        private List<GameObject> _invertedObjectsList;
 
         [OnAwake]
         private void OnAwake()
@@ -28,7 +35,10 @@ namespace AxGrid.Tools.Binders
         private void OnToggleStateChange()
         {
             bool state = Model.GetBool(objectStateName);
-            gameObject.SetActive(state);
+            foreach (GameObject obj in _objectsList)
+                obj.SetActive(state);
+            foreach (GameObject obj in _invertedObjectsList)
+                obj.SetActive(!state);
         }
 
         [OnDestroy]

@@ -33,6 +33,14 @@ public class @MainControl : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Begin"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd6abc89-50c8-404e-ba64-ac1785edcaff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -57,6 +65,17 @@ public class @MainControl : IInputActionCollection, IDisposable
                     ""action"": ""Return"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04860b12-f0b7-4bdb-867f-f552a1f0bc88"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Begin"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -67,6 +86,7 @@ public class @MainControl : IInputActionCollection, IDisposable
         m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
         m_Main_Console = m_Main.FindAction("Console", throwIfNotFound: true);
         m_Main_Return = m_Main.FindAction("Return", throwIfNotFound: true);
+        m_Main_Begin = m_Main.FindAction("Begin", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -118,12 +138,14 @@ public class @MainControl : IInputActionCollection, IDisposable
     private IMainActions m_MainActionsCallbackInterface;
     private readonly InputAction m_Main_Console;
     private readonly InputAction m_Main_Return;
+    private readonly InputAction m_Main_Begin;
     public struct MainActions
     {
         private @MainControl m_Wrapper;
         public MainActions(@MainControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Console => m_Wrapper.m_Main_Console;
         public InputAction @Return => m_Wrapper.m_Main_Return;
+        public InputAction @Begin => m_Wrapper.m_Main_Begin;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -139,6 +161,9 @@ public class @MainControl : IInputActionCollection, IDisposable
                 @Return.started -= m_Wrapper.m_MainActionsCallbackInterface.OnReturn;
                 @Return.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnReturn;
                 @Return.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnReturn;
+                @Begin.started -= m_Wrapper.m_MainActionsCallbackInterface.OnBegin;
+                @Begin.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnBegin;
+                @Begin.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnBegin;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -149,6 +174,9 @@ public class @MainControl : IInputActionCollection, IDisposable
                 @Return.started += instance.OnReturn;
                 @Return.performed += instance.OnReturn;
                 @Return.canceled += instance.OnReturn;
+                @Begin.started += instance.OnBegin;
+                @Begin.performed += instance.OnBegin;
+                @Begin.canceled += instance.OnBegin;
             }
         }
     }
@@ -157,5 +185,6 @@ public class @MainControl : IInputActionCollection, IDisposable
     {
         void OnConsole(InputAction.CallbackContext context);
         void OnReturn(InputAction.CallbackContext context);
+        void OnBegin(InputAction.CallbackContext context);
     }
 }

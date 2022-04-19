@@ -22,18 +22,26 @@ namespace AxGrid.Tools.Binders
 
             toggle = GetComponent<Toggle>();
             toggle.onValueChanged.AddListener(OnToggleValueChanged);
+
+            Model.EventManager.AddAction($"{toggleName}StateChange", StateChange);
         }
 
         private void OnToggleValueChanged(bool toggleState)
         {
-            Model?.EventManager.Invoke($"On{toggleName}StateChange", toggleState);
-            Settings.Fsm?.Invoke($"On{toggleName}StateChange", toggleState);
+            Model?.EventManager.Invoke($"On{toggleName}StateChanged", toggleState);
+            Settings.Fsm?.Invoke($"On{toggleName}StateChanged", toggleState);
+        }
+
+        private void StateChange()
+        {
+            toggle.isOn = !toggle.isOn;
         }
 
         [OnDestroy]
         private void Destroy()
         {
             toggle.onValueChanged.RemoveAllListeners();
+            Model.EventManager.RemoveAction($"{toggleName}StateChange", StateChange);
         }
     }
 }
