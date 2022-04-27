@@ -4,17 +4,20 @@ using AxGrid.Model;
 
 namespace ToolsTest
 {
-    [State("ControlState")]
     public abstract class ControlState : FSMState
     {
+        protected abstract string FieldGrave { get; }
+        protected abstract bool State { get; }
+
         [Enter]
-        private protected virtual void OnEnter()
+        protected virtual void OnEnter()
         {
+            Model.Set(FieldGrave, State);
             Parent.Change("ListenerState");
         }
 
         [Exit]
-        private protected virtual void OnExit()
+        protected virtual void OnExit()
         {
             Debug.Log("Done");
         }

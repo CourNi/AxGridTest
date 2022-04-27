@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AxGrid.Base;
 using AxGrid.Model;
 using UnityEngine;
@@ -14,9 +15,9 @@ namespace AxGrid.Tools.Binders
         [SerializeField]
         private bool defaultEnable = true;
         [SerializeField]
-        private List<GameObject> _objectsList;
+        private List<GameObject> _objectsList = new List<GameObject>();
         [SerializeField]
-        private List<GameObject> _invertedObjectsList;
+        private List<GameObject> _invertedObjectsList = new List<GameObject>();
 
         [OnAwake]
         private void OnAwake()
@@ -35,10 +36,9 @@ namespace AxGrid.Tools.Binders
         private void OnToggleStateChange()
         {
             bool state = Model.GetBool(objectStateName);
-            foreach (GameObject obj in _objectsList)
-                obj.SetActive(state);
-            foreach (GameObject obj in _invertedObjectsList)
-                obj.SetActive(!state);
+
+            _objectsList.ForEach(obj => obj.SetActive(state));
+            _invertedObjectsList.ForEach(obj => obj.SetActive(!state));
         }
 
         [OnDestroy]

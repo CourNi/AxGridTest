@@ -6,11 +6,7 @@ namespace ToolsTest
     [State("RightOpenState")]
     public class RightOpenState : ControlState
     {
-        [Enter]
-        private protected override void OnEnter()
-        {
-            Model.Set("RCoffinState", true);
-            base.OnEnter();
-        }
+        protected override string FieldGrave => "RCoffinState";
+        protected override bool State => true;
     }
 }

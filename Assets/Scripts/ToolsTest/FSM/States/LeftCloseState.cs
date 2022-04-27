@@ -6,11 +6,7 @@ namespace ToolsTest
     [State("LeftCloseState")]
     public class LeftCloseState : ControlState
     {
-        [Enter]
-        private protected override void OnEnter()
-        {
-            Model.Set("LCoffinState", false);
-            base.OnEnter();
-        }
+        protected override string FieldGrave => "LCoffinState";
+        protected override bool State => false;
     }
 }

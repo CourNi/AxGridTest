@@ -9,16 +9,20 @@ using AxGrid;
 namespace Test2 {
     public class CardDeck : MonoBehaviourExt, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        private List<Card> _cardPool;
+        [SerializeField]
+        private CardObject _cardObjectPrefab;
+        private List<Card> _cardPool = new List<Card>();
+        private List<CardObject> _cardObjectPool = new List<CardObject>();
         private Outline _outline;
         private int _poolSize;
 
         [OnAwake]
         private void OnAwake()
         {
+            Model.Set("DeckPosition", transform.position);
+            Model.Set("DeckPool", _cardObjectPool);
             _outline = GetComponent<Outline>();
 
-            _cardPool = new List<Card>();
             _cardPool.Add(new Card(2, "Coin", "Add some coins", "coin"));
             _cardPool.Add(new Card(4, "Pouch", "Give 2-4 coin cards", "pouch"));
             _cardPool.Add(new Card(8, "Ring", "Add random magic", "ring"));
@@ -28,7 +32,12 @@ namespace Test2 {
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Model.EventManager.Invoke("OnDeckClick", _cardPool[Random.Range(0, _poolSize)]);
+            if (Model.GetList<Card>("MainList").Count < Model.GetInt("MainPool"))
+            {
+                var cardObj = Instantiate(_cardObjectPrefab, transform);
+                Model.GetList<CardObject>("DeckPool").Add(cardObj);
+                Settings.Fsm.Invoke("OnDeckClick", _cardPool[Random.Range(0, _poolSize)].GetThis());
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
